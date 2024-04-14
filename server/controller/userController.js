@@ -6,6 +6,7 @@ const Register = async(req,res) =>{
     try {
         const saveUser = new User({name,username,password})
         await saveUser.save();
+        res.json({message:'registered success'})
         
     } catch (error) {
         console.error(error)
