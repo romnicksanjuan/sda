@@ -35,5 +35,9 @@ const Login = async(req,res) =>{
     }
 }
 
+const Home = (req,res) =>{
+    res.json('welcome to Home')
+}
 
-module.exports = {Register,Welcome,Login}
+
+module.exports = {Register,Welcome,Login,Home}
