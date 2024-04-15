@@ -1,5 +1,9 @@
 const User = require('../model/user')
 
+const Welcome = (req,res) =>{
+    res.json({message:'This is Welcome Page'})
+}
+
 const Register = async(req,res) =>{
     const {name,username,password} = req.body;
 
@@ -14,4 +18,4 @@ const Register = async(req,res) =>{
 }
 
 
-module.exports = {Register}
+module.exports = {Register,Welcome}
