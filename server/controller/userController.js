@@ -17,5 +17,23 @@ const Register = async(req,res) =>{
     }
 }
 
+const Login = async(req,res) =>{
+    const {username, password} = req.body;
 
-module.exports = {Register,Welcome}
+    try {
+        const checkUsername = await User.findOne({username})
+
+        if(checkUsername){
+            if(checkUsername.password !== password){
+                return res.json({message:'Username or Password Incorrect'})
+            }
+        }else{
+            return res.json({message:'Username or Password Incorrect'})
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+module.exports = {Register,Welcome,Login}
