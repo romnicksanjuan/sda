@@ -1,6 +1,7 @@
 const e = require('express')
 const User = require('../model/user')
 const jwt = require('jsonwebtoken')
+const user = require('../model/user')
 
 const secretKey = 'nick14'
 
@@ -32,7 +33,7 @@ const Login = async (req, res) => {
                 return res.json({ message: 'Username or Password Incorrect' })
             } else {
 
-                const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+                const token = jwt.sign({ userId: user._id, username: user.username }, secretKey, { expiresIn: '1h' });
 
                 res.json({ message: 'Login Successfully', token })
             }
@@ -45,35 +46,29 @@ const Login = async (req, res) => {
 }
 
 const Home = (req, res) => {
-    res.json({ message: 'this home' })
+    const username = req.username
     console.log('this is home server')
 
     console.log(req.userId)
+    res.json({ message: 'this home', username })
+
 }
 
 const verifyToken = (req, res, next) => {
-    // Get token from authorization header
-    // const token = req.headers['authorization'];
-    const {token} = req.body
-    console.log(token)
 
-    // if (!token) {
-    //     console.log({ error: 'Token not provided' })
-    //     return res.json({ error: 'Token not provided' });
-    // }
-    // Verify token
     try {
-        jwt.verify(token, secretKey, (err, decoded) => {
-            if (err) {
-                // Invalid token
-                console.log({ error: 'Invalid token' })
-                return res.status(401).json({ error: 'Invalid token' });
-            }
+        const token = req.headers['authorization'].split(' ')[1];
+        console.log(token)
 
-            // Token is valid, attach decoded user ID to request object
-            req.userId = decoded.userId;
-            next();
-        });
+            jwt.verify(token, secretKey, (err, decoded) => {
+                if (err) {
+                    return res.json({ err: 'invalid token' })
+                }
+                req.userId = decoded.userId
+                req.username = decoded.username
+                next()
+            })
+
     } catch (error) {
         console.log(error)
     }
