@@ -33,7 +33,7 @@ const Login = async (req, res) => {
                 return res.json({ message: 'Username or Password Incorrect' })
             } else {
 
-                const token = jwt.sign({ userId: user._id, username: user.username }, secretKey, { expiresIn: '1h' });
+                const token = jwt.sign({ userId: user._id, name: user.name }, secretKey, { expiresIn: '1h' });
 
                 res.json({ message: 'Login Successfully', token })
             }
@@ -46,11 +46,11 @@ const Login = async (req, res) => {
 }
 
 const Home = (req, res) => {
-    const username = req.username
+    const name = req.name
     console.log('this is home server')
 
     console.log(req.userId)
-    res.json({ message: 'this home', username })
+    res.json({ message: 'this is home', name })
 
 }
 
@@ -65,7 +65,7 @@ const verifyToken = (req, res, next) => {
                     return res.json({ err: 'invalid token' })
                 }
                 req.userId = decoded.userId
-                req.username = decoded.username
+                req.name = decoded.name
                 
             })
             next()
