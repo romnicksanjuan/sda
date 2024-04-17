@@ -66,9 +66,9 @@ const verifyToken = (req, res, next) => {
                 }
                 req.userId = decoded.userId
                 req.username = decoded.username
-                next()
+                
             })
-
+            next()
     } catch (error) {
         console.log(error)
     }
