@@ -35,7 +35,7 @@ const Login = async (req, res) => {
                 return res.status(400).json({ message: 'Username or Password Incorrect' })
             } else {
 
-                const token = jwt.sign({ userId: user._id, name: user.name }, secretKey,);
+                const token = jwt.sign({ userId: user._id, name: user.name,username:user.username }, secretKey,);
 
                 res.status(200).json({ message: 'Login Successfully', token })
             }
@@ -56,7 +56,14 @@ const Home = (req, res) => {
 
 }
 
+const Profile = async(req,res) =>{
+    const name = req.name
+    const username = req.username
+
+    return res.status(200).json({name,username})
+}
 
 
 
-module.exports = { Register, Welcome, Login, Home }
+
+module.exports = { Register, Welcome, Login, Home,Profile }
