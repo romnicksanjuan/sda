@@ -1,6 +1,6 @@
 const express = require('express');
-const {Register,Welcome,Login,Home,verifyToken} = require('../controller/userController')
-// const verifyToken = require('../awt/awt')
+const {Register,Welcome,Login,Home} = require('../controller/userController')
+const verifyToken = require('../awt/awt')
 
 const router = express.Router();
 

@@ -1,7 +1,5 @@
-const e = require('express')
 const User = require('../model/user')
 const jwt = require('jsonwebtoken')
-const user = require('../model/user')
 
 const secretKey = 'nick14'
 
@@ -58,28 +56,7 @@ const Home = (req, res) => {
 
 }
 
-const verifyToken = (req, res, next) => {
-
-    try {
-        const token = req.headers['authorization'].split(' ')[1];
-        console.log(token)
-        if(!token){
-            return res.json({ err: 'no token provided' })
-        }
-
-            jwt.verify(token, secretKey, (err, decoded) => {
-                if (err) {
-                    return res.json({ err: 'token expired' })
-                }
-                req.userId = decoded.userId
-                req.name = decoded.name
-                
-            })
-            next()
-    } catch (error) {
-        console.log(error)
-    }
-}
 
 
-module.exports = { Register, Welcome, Login, Home, verifyToken }
+
+module.exports = { Register, Welcome, Login, Home }

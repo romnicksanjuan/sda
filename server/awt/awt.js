@@ -1,29 +1,27 @@
 
 const jwt = require('jsonwebtoken');
 const secretKey = 'nick14'
-const verifyToken = (req,res,next) => {
-    // Get token from authorization header
-    const token = req.headers['Authorization'];
-    console.log(!token)
+const verifyToken = (req, res, next) => {
 
-    if (!token) {
-        // No token provided
-        console.log({ error: 'Token not provided' })
-        return res.json({ error: 'Token not provided' });
-    }
-
-    // Verify token
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-            // Invalid token
-            console.log({ error: 'Invalid token' })
-            return res.status(401).json({ error: 'Invalid token' });
+    try {
+        const token = req.headers['authorization'].split(' ')[1];
+        console.log({token:token})
+        if(!token){
+            return res.json({ err: 'no token provided' })
         }
 
-        // Token is valid, attach decoded user ID to request object
-        req.userId = decoded.userId;
-        next();
-    });
+            jwt.verify(token, secretKey, (err, decoded) => {
+                if (err) {
+                    return res.json({ err: 'token expired' })
+                }
+                req.userId = decoded.userId
+                req.name = decoded.name
+                
+            })
+            next()
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 module.exports = verifyToken
