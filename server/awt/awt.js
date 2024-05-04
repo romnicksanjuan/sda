@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
 
     try {
         const token = req.headers['authorization'].split(' ')[1];
-        console.log({token:token})
+        // console.log({token:token})
         if(!token){
             return res.json({ err: 'no token provided' })
         }
@@ -15,9 +15,6 @@ const verifyToken = (req, res, next) => {
                     return res.json({ err: 'token expired' })
                 }
                 req.userId = decoded.userId
-                req.name = decoded.name
-                req.username = decoded.username
-                
             })
             next()
     } catch (error) {

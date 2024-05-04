@@ -13,10 +13,15 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    
+    profileImage:{
+        type:String
+    },
+    mobile:{
+        type:Number
+    }, 
 },
 {
     timestamps:true
 })
 
-module.exports = mongoose.model('users', userSchema)
+module.exports = mongoose.model('User', userSchema)
