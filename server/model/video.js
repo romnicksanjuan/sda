@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const videoSchema = mongoose.Schema({
     video: {
-        type: String
+        type: Buffer
     },
     title: {
         type: String

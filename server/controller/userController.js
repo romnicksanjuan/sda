@@ -57,19 +57,19 @@ const Login = async (req, res) => {
 const Dashboard = async(req, res) => {
     // const _id = req.userId
 
+    
     try {
         const video = await Video.find().populate('authorId').exec()
         
         const videos = video.map((vid) =>(
             {
-                video:vid.video,
+                video:vid.video.toString('base64'),
                 title:vid.title,
                 author:vid.authorId.name,
                 authorProfile:vid.authorId.profileImage
             }
         ))
 
-        console.log(videos)
         res.json(videos)
     } catch (error) {
         console.log(error)
@@ -112,9 +112,9 @@ const uploadVideo = async(req,res) =>{
     const {video} = req.body
     console.log(userId)
     console.log(video)
-    
+    const videoBuffer = Buffer.from(video, 'base64');
     try {
-        const saveVideo = new Video({video, authorId: userId})
+        const saveVideo = new Video({video:videoBuffer, authorId: userId})
         await saveVideo.save();
     } catch (error) {
         console.log(error)
