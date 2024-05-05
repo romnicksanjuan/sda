@@ -64,11 +64,12 @@ const Dashboard = async(req, res) => {
             {
                 video:vid.video,
                 title:vid.title,
-                author:vid.authorId.name
+                author:vid.authorId.name,
+                authorProfile:vid.authorId.profileImage
             }
         ))
 
-        console.log({videos,userId:_id})
+        console.log(videos)
         res.json(videos)
     } catch (error) {
         console.log(error)
