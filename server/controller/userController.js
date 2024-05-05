@@ -1,4 +1,5 @@
 const User = require('../model/user')
+const Video = require('../model/video')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
 
@@ -53,14 +54,22 @@ const Login = async (req, res) => {
     }
 }
 
-const Home = async(req, res) => {
+const Dashboard = async(req, res) => {
     const _id = req.userId
-    // console.log(name)
 
-    // console.log(req.userId)
     try {
-        const data = await User.find({})
-        return res.json(data)
+        const video = await Video.find().populate('authorId').exec()
+        
+        const videos = video.map((vid) =>(
+            {
+                video:vid.video,
+                title:vid.title,
+                author:vid.authorId.name
+            }
+        ))
+
+        console.log({videos,userId:_id})
+        res.json(videos)
     } catch (error) {
         console.log(error)
     }
@@ -97,12 +106,21 @@ const uploadProfile = async (req, res) => {
 }
 
 
-
-
-
-const Video = (req,res) =>{
-    res.json({ message: 'Video uploaded', file: req.file.path });
+const uploadVideo = async(req,res) =>{
+    const {userId} = req.params
+    const {video} = req.body
+    console.log(userId)
+    console.log(video)
+    
+    try {
+        const saveVideo = new Video({video, authorId: userId})
+        await saveVideo.save();
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
-module.exports = { Register, Welcome, Login, Home, Profile, uploadProfile,Video }
+
+
+module.exports = { Register, Welcome, Login, Dashboard, Profile, uploadProfile,uploadVideo }

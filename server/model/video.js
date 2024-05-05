@@ -8,7 +8,7 @@ const videoSchema = mongoose.Schema({
     },
     authorId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'User',
         required: true,
     }
 
