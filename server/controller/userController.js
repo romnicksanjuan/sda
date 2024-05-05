@@ -55,7 +55,7 @@ const Login = async (req, res) => {
 }
 
 const Dashboard = async(req, res) => {
-    const _id = req.userId
+    // const _id = req.userId
 
     try {
         const video = await Video.find().populate('authorId').exec()
