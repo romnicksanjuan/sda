@@ -116,6 +116,7 @@ const uploadVideo = async(req,res) =>{
     try {
         const saveVideo = new Video({video:videoBuffer, authorId: userId})
         await saveVideo.save();
+        res.json(saveVideo)
     } catch (error) {
         console.log(error)
     }
