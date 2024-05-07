@@ -69,7 +69,7 @@ const Dashboard = async(req, res) => {
                 authorProfile:vid.authorId.profileImage
             }
         ))
-
+        console.log('sds')
         res.json(videos)
     } catch (error) {
         console.log(error)
@@ -111,12 +111,12 @@ const uploadVideo = async(req,res) =>{
     const {userId} = req.params
     const {video} = req.body
     console.log(userId)
-    console.log(video)
+    // console.log(video)
     const videoBuffer = Buffer.from(video, 'base64');
     try {
         const saveVideo = new Video({video:videoBuffer, authorId: userId})
         await saveVideo.save();
-        res.json(saveVideo)
+        res.json("video uploaded successfully")
     } catch (error) {
         console.log(error)
     }
